@@ -5,11 +5,11 @@ exo-changelog
 .. image:: https://badge.fury.io/py/exo-changelog.svg
     :target: https://badge.fury.io/py/exo-changelog
 
-.. image:: https://travis-ci.org/tomasgarzon/exo-changelog.svg?branch=master
-    :target: https://travis-ci.org/tomasgarzon/exo-changelog
+.. image:: https://travis-ci.org/ExOLever/exo-changelog.svg?branch=master
+    :target: https://travis-ci.org/ExOLever/exo-changelog
 
-.. image:: https://codecov.io/gh/tomasgarzon/exo-changelog/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/tomasgarzon/exo-changelog
+.. image:: https://codecov.io/gh/ExOLever/exo-changelog/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/ExOLever/exo-changelog
 
 Manage changelog as migrations
 
