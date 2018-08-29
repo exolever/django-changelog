@@ -218,7 +218,7 @@ class Command(BaseCommand):
             for change in merge_changes:
                 change.branch = change.ancestry[common_ancestor_count:]
                 changes_ops = (loader.get_change(node_app, node_name).operations
-                                  for node_app, node_name in change.branch)
+                               for node_app, node_name in change.branch)
                 change.merged_operations = sum(changes_ops, [])
             # In future, this could use some of the Optimizer code
             # (can_optimize_through) to automatically see if they're
