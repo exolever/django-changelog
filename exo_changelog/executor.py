@@ -102,9 +102,9 @@ class ChangeExecutor(object):
         elif all_forwards == all_backwards:
             # This should only happen if there's a mixed plan
             raise InvalidChangePlan(
-                "Change plans with both forwards and backwards changes "
-                "are not supported. Please split your change process into "
-                "separate plans of only forwards OR backwards changes.",
+                'Change plans with both forwards and backwards changes '
+                'are not supported. Please split your change process into '
+                'separate plans of only forwards OR backwards changes.',
                 plan
             )
         elif all_forwards:
@@ -135,10 +135,10 @@ class ChangeExecutor(object):
             if change in changes_to_run:
                 if 'apps' not in state.__dict__:
                     if self.progress_callback:
-                        self.progress_callback("render_start")
+                        self.progress_callback('render_start')
                     state.apps  # Render all -- performance critical
                     if self.progress_callback:
-                        self.progress_callback("render_success")
+                        self.progress_callback('render_success')
                 state = self.apply_change(state, change, fake=fake)
                 changes_to_run.remove(change)
 
@@ -163,7 +163,7 @@ class ChangeExecutor(object):
             if key in self.loader.graph.nodes
         }
         if self.progress_callback:
-            self.progress_callback("render_start")
+            self.progress_callback('render_start')
         for change, _ in full_plan:
             if not changes_to_run:
                 # We remove every change that we applied from this set so
@@ -185,7 +185,7 @@ class ChangeExecutor(object):
                 # from unrelated migrations.
                 change.mutate_state(state, preserve=False)
         if self.progress_callback:
-            self.progress_callback("render_success")
+            self.progress_callback('render_success')
 
         for change, _ in plan:
             self.unapply_change(states[change], change, fake=fake)
@@ -210,14 +210,14 @@ class ChangeExecutor(object):
         Runs a migration forwards.
         """
         if self.progress_callback:
-            self.progress_callback("apply_start", change, fake)
+            self.progress_callback('apply_start', change, fake)
         if not fake:
             state = change.apply(state, None)
         # Record individual statuses
         self.recorder.record_applied(change.app_label, change.name)
         # Report progress
         if self.progress_callback:
-            self.progress_callback("apply_success", change, fake)
+            self.progress_callback('apply_success', change, fake)
         return state
 
     def unapply_change(self, state, change, fake=False):
@@ -225,7 +225,7 @@ class ChangeExecutor(object):
         Runs a migration backwards.
         """
         if self.progress_callback:
-            self.progress_callback("unapply_start", change, fake)
+            self.progress_callback('unapply_start', change, fake)
         if not fake:
             with self.connection.schema_editor(atomic=change.atomic) as schema_editor:
                 state = change.unapply(state, schema_editor)
@@ -233,5 +233,5 @@ class ChangeExecutor(object):
         self.recorder.record_unapplied(change.app_label, change.name)
         # Report progress
         if self.progress_callback:
-            self.progress_callback("unapply_success", change, fake)
+            self.progress_callback('unapply_success', change, fake)
         return state

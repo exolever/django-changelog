@@ -13,7 +13,7 @@ from django.db.migrations.graph import Node, DummyNode
 from .exceptions import CircularDependencyError, NodeNotFoundError
 
 RECURSION_DEPTH_WARNING = (
-    "Maximum recursion depth exceeded while generating changes graph, "
+    'Maximum recursion depth exceeded while generating changes graph, '
 )
 
 
@@ -62,14 +62,14 @@ class ChangeGraph(object):
         """
         if child not in self.nodes:
             error_message = (
-                "Change %s dependencies reference nonexistent"
-                " child node %r" % (change, child)
+                'Change %s dependencies reference nonexistent'
+                ' child node %r' % (change, child)
             )
             self.add_dummy_node(child, change, error_message)
         if parent not in self.nodes:
             error_message = (
-                "Change %s dependencies reference nonexistent"
-                " parent node %r" % (change, parent)
+                'Change %s dependencies reference nonexistent'
+                ' parent node %r' % (change, parent)
             )
             self.add_dummy_node(parent, change, error_message)
         self.node_map[child].add_parent(self.node_map[parent])
@@ -90,8 +90,8 @@ class ChangeGraph(object):
             replacement_node = self.node_map[replacement]
         except KeyError as exc:
             exc_value = NodeNotFoundError(
-                "Unable to find replacement node %r. It was either never added"
-                " to the change graph, or has been removed." % (replacement, ),
+                'Unable to find replacement node %r. It was either never added'
+                ' to the change graph, or has been removed.' % (replacement, ),
                 replacement
             )
             exc_value.__cause__ = exc
@@ -130,8 +130,8 @@ class ChangeGraph(object):
             replacement_node = self.node_map.pop(replacement)
         except KeyError as exc:
             exc_value = NodeNotFoundError(
-                "Unable to remove replacement node %r. It was either never added"
-                " to the change graph, or has been removed already." % (replacement, ),
+                'Unable to remove replacement node %r. It was either never added'
+                ' to the change graph, or has been removed already.' % (replacement, ),
                 replacement
             )
             exc_value.__cause__ = exc
@@ -180,7 +180,7 @@ class ChangeGraph(object):
         a database.
         """
         if target not in self.nodes:
-            raise NodeNotFoundError("Node %r not a valid node" % (target, ), target)
+            raise NodeNotFoundError('Node %r not a valid node' % (target, ), target)
         # Use parent.key instead of parent to speed up the frequent hashing in ensure_not_cyclic
         self.ensure_not_cyclic(target, lambda x: (parent.key for parent in self.node_map[x].parents))
         self.cached = True
@@ -200,7 +200,7 @@ class ChangeGraph(object):
         a database.
         """
         if target not in self.nodes:
-            raise NodeNotFoundError("Node %r not a valid node" % (target, ), target)
+            raise NodeNotFoundError('Node %r not a valid node' % (target, ), target)
         # Use child.key instead of child to speed up the frequent hashing in ensure_not_cyclic
         self.ensure_not_cyclic(target, lambda x: (child.key for child in self.node_map[x].children))
         self.cached = True
@@ -272,7 +272,7 @@ class ChangeGraph(object):
                 for node in get_children(top):
                     if node in stack:
                         cycle = stack[stack.index(node):]
-                        raise CircularDependencyError(", ".join("%s.%s" % n for n in cycle))
+                        raise CircularDependencyError(', '.join('%s.%s' % n for n in cycle))
                     if node in todo:
                         stack.append(node)
                         todo.remove(node)

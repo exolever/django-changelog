@@ -23,7 +23,7 @@ from ...autodetector import ChangeAutodetector
 
 
 class Command(BaseCommand):
-    help = "Creates new change(s) for apps."
+    help = 'Creates new change(s) for apps.'
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -32,7 +32,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '--merge', action='store_true', dest='merge', default=False,
-            help="Enable fixing of changes conflicts.",
+            help='Enable fixing of changes conflicts.',
         )
         parser.add_argument(
             '--noinput', '--no-input',
@@ -41,7 +41,7 @@ class Command(BaseCommand):
         )
         parser.add_argument(
             '-n', '--name', action='store', dest='name', default=None,
-            help="Use this name for change file(s).",
+            help='Use this name for change file(s).',
         )
 
     def handle(self, *app_labels, **options):
@@ -68,7 +68,7 @@ class Command(BaseCommand):
         loader = ChangeLoader(None, ignore_no_changes=True)
 
         # Raise an error if any changes are applied before their dependencies.
-        consistency_check_labels = set(config.label for config in apps.get_app_configs())
+        consistency_check_labels = {config.label for config in apps.get_app_configs()}
         # Non-default databases are only checked if database routers used.
         aliases_to_check = connections if settings.DATABASE_ROUTERS else [DEFAULT_DB_ALIAS]
         for alias in sorted(aliases_to_check):
@@ -93,19 +93,19 @@ class Command(BaseCommand):
             }
 
         if conflicts and not self.merge:
-            name_str = "; ".join(
-                "%s in %s" % (", ".join(names), app)
+            name_str = '; '.join(
+                '%s in %s' % (', '.join(names), app)
                 for app, names in conflicts.items()
             )
             raise CommandError(
-                "Conflicting changes detected; multiple leaf nodes in the "
-                "changes graph: (%s).\nTo fix them run "
+                'Conflicting changes detected; multiple leaf nodes in the '
+                'changes graph: (%s).\nTo fix them run '
                 "'python manage.py makechange --merge'" % name_str
             )
 
         # If they want to merge and there's nothing to merge, then politely exit
         if self.merge and not conflicts:
-            self.stdout.write("No conflicts detected to merge.")
+            self.stdout.write('No conflicts detected to merge.')
             return
 
         # If they want to merge and there is something to merge, then
@@ -120,10 +120,10 @@ class Command(BaseCommand):
 
         # To make an empty change, make one for each app
         if not app_labels:
-            raise CommandError("You must supply at least one app label when using --empty.")
+            raise CommandError('You must supply at least one app label when using --empty.')
         # Make a fake changes() result we can pass to arrange_for_graph
         changes = {
-            app: [Change("custom", app)]
+            app: [Change('custom', app)]
             for app in app_labels
         }
         autodetector = ChangeAutodetector(
@@ -145,7 +145,7 @@ class Command(BaseCommand):
         directory_created = {}
         for app_label, app_changes in changes.items():
             if self.verbosity >= 1:
-                self.stdout.write(self.style.MIGRATE_HEADING("Changes for '%s':" % app_label) + "\n")
+                self.stdout.write(self.style.MIGRATE_HEADING("Changes for '%s':" % app_label) + '\n')
             for change in app_changes:
                 # Describe the change
                 writer = ChangeWriter(change)
@@ -158,31 +158,31 @@ class Command(BaseCommand):
                         change_string = writer.path
                     if change_string.startswith('..'):
                         change_string = writer.path
-                    self.stdout.write("  %s\n" % (self.style.MIGRATE_LABEL(change_string),))
+                    self.stdout.write('  %s\n' % (self.style.MIGRATE_LABEL(change_string),))
                     for operation in change.operations:
-                        self.stdout.write("    - %s\n" % operation.describe())
+                        self.stdout.write('    - %s\n' % operation.describe())
                 if not self.dry_run:
                     # Write the changes file to the disk.
                     changes_directory = os.path.dirname(writer.path)
                     if not directory_created.get(app_label):
                         if not os.path.isdir(changes_directory):
                             os.mkdir(changes_directory)
-                        init_path = os.path.join(changes_directory, "__init__.py")
+                        init_path = os.path.join(changes_directory, '__init__.py')
                         if not os.path.isfile(init_path):
-                            open(init_path, "w").close()
+                            open(init_path, 'w').close()
                         # We just do this once per app
                         directory_created[app_label] = True
                     change_string = writer.as_string()
-                    with io.open(writer.path, "w", encoding='utf-8') as fh:
+                    with io.open(writer.path, 'w', encoding='utf-8') as fh:
                         fh.write(change_string)
                 elif self.verbosity == 3:
                     # Alternatively, makechanges --dry-run --verbosity 3
                     # will output the changes to stdout rather than saving
                     # the file to the disk.
                     self.stdout.write(self.style.MIGRATE_HEADING(
-                        "Full changes file '%s':" % writer.filename) + "\n"
+                        "Full changes file '%s':" % writer.filename) + '\n'
                     )
-                    self.stdout.write("%s\n" % writer.as_string())
+                    self.stdout.write('%s\n' % writer.as_string())
 
     def handle_merge(self, loader, conflicts):
         """
@@ -213,7 +213,7 @@ class Command(BaseCommand):
             common_ancestor_count = sum(1 for common_ancestor_generation
                                         in takewhile(all_items_equal, merge_changes_generations))
             if not common_ancestor_count:
-                raise ValueError("Could not find common ancestor of %s" % change_names)
+                raise ValueError('Could not find common ancestor of %s' % change_names)
             # Now work out the operations along each divergent branch
             for change in merge_changes:
                 change.branch = change.ancestry[common_ancestor_count:]
@@ -224,11 +224,11 @@ class Command(BaseCommand):
             # (can_optimize_through) to automatically see if they're
             # mergeable. For now, we always just prompt the user.
             if self.verbosity > 0:
-                self.stdout.write(self.style.MIGRATE_HEADING("Merging %s" % app_label))
+                self.stdout.write(self.style.MIGRATE_HEADING('Merging %s' % app_label))
                 for change in merge_changes:
-                    self.stdout.write(self.style.MIGRATE_LABEL("  Branch %s" % change.name))
+                    self.stdout.write(self.style.MIGRATE_LABEL('  Branch %s' % change.name))
                     for operation in change.merged_operations:
-                        self.stdout.write("    - %s\n" % operation.describe())
+                        self.stdout.write('    - %s\n' % operation.describe())
             if questioner.ask_merge(app_label):
                 # If they still want to merge it, then write out an empty
                 # file depending on the changes needing merging.
@@ -240,27 +240,27 @@ class Command(BaseCommand):
                     biggest_number = max(x for x in numbers if x is not None)
                 except ValueError:
                     biggest_number = 1
-                subclass = type("Change", (Change, ), {
-                    "dependencies": [(app_label, change.name) for change in merge_changes],
+                subclass = type('Change', (Change, ), {
+                    'dependencies': [(app_label, change.name) for change in merge_changes],
                 })
-                change_name = "%04i_%s" % (
+                change_name = '%04i_%s' % (
                     biggest_number + 1,
-                    self.change_name or ("merge_%s" % get_migration_name_timestamp())
+                    self.change_name or ('merge_%s' % get_migration_name_timestamp())
                 )
                 new_change = subclass(change_name, app_label)
                 writer = ChangeWriter(new_change)
 
                 if not self.dry_run:
                     # Write the merge changes file to the disk
-                    with io.open(writer.path, "w", encoding='utf-8') as fh:
+                    with io.open(writer.path, 'w', encoding='utf-8') as fh:
                         fh.write(writer.as_string())
                     if self.verbosity > 0:
-                        self.stdout.write("\nCreated new merge change %s" % writer.path)
+                        self.stdout.write('\nCreated new merge change %s' % writer.path)
                 elif self.verbosity == 3:
                     # Alternatively, makechanges --merge --dry-run --verbosity 3
                     # will output the merge changes to stdout rather than saving
                     # the file to the disk.
                     self.stdout.write(self.style.MIGRATE_HEADING(
-                        "Full merge changes file '%s':" % writer.filename) + "\n"
+                        "Full merge changes file '%s':" % writer.filename) + '\n'
                     )
-                    self.stdout.write("%s\n" % writer.as_string())
+                    self.stdout.write('%s\n' % writer.as_string())

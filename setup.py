@@ -21,13 +21,13 @@ def get_version(*file_paths):
     raise RuntimeError('Unable to find version string.')
 
 
-version = get_version("exo_changelog", "__init__.py")
+version = get_version('exo_changelog', '__init__.py')
 
 
 if sys.argv[-1] == 'publish':
     try:
         import wheel
-        print("Wheel version: ", wheel.__version__)
+        print('Wheel version: ', wheel.__version__)
     except ImportError:
         print('Wheel library missing. Please run "pip install wheel"')
         sys.exit()
@@ -36,9 +36,9 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 if sys.argv[-1] == 'tag':
-    print("Tagging the version on git:")
+    print('Tagging the version on git:')
     os.system("git tag -a %s -m 'version %s'" % (version, version))
-    os.system("git push --tags")
+    os.system('git push --tags')
     sys.exit()
 
 readme = open('README.rst').read()
@@ -56,8 +56,8 @@ setup(
         'exo_changelog',
     ],
     include_package_data=True,
-    install_requires=["django-model-utils>=2.0", ],
-    license="BSD",
+    install_requires=['django-model-utils>=2.0', ],
+    license='BSD',
     zip_safe=False,
     keywords='exo-changelog',
     classifiers=[

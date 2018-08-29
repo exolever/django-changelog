@@ -15,7 +15,7 @@ from ...executor import ChangeExecutor
 
 
 class Command(BaseCommand):
-    help = "Apply changes. "
+    help = 'Apply changes. '
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -50,7 +50,7 @@ class Command(BaseCommand):
         # Import the 'management' module within each installed app, to register
         # dispatcher events.
         for app_config in apps.get_app_configs():
-            if module_has_submodule(app_config.module, "management"):
+            if module_has_submodule(app_config.module, 'management'):
                 import_module('.management', app_config.name)
 
         executor = ChangeExecutor(self.change_progress_callback)
@@ -62,13 +62,13 @@ class Command(BaseCommand):
         # hard if there are any
         conflicts = executor.loader.detect_conflicts()
         if conflicts:
-            name_str = "; ".join(
-                "%s in %s" % (", ".join(names), app)
+            name_str = '; '.join(
+                '%s in %s' % (', '.join(names), app)
                 for app, names in conflicts.items()
             )
             raise CommandError(
-                "Conflicting changes detected; multiple leaf nodes in the "
-                "change graph: (%s).\nTo fix them run "
+                'Conflicting changes detected; multiple leaf nodes in the '
+                'change graph: (%s).\nTo fix them run '
                 "'python manage.py makechange --merge'" % name_str
             )
 
@@ -80,7 +80,7 @@ class Command(BaseCommand):
                 raise CommandError(
                     "App '%s' does not have changes." % app_label
                 )
-            if change_name == "zero":
+            if change_name == 'zero':
                 targets = [(app_label, None)]
             else:
                 try:
@@ -88,7 +88,7 @@ class Command(BaseCommand):
                 except AmbiguityError:
                     raise CommandError(
                         "More than one change matches '%s' in app '%s'. "
-                        "Please be more specific." %
+                        'Please be more specific.' %
                         (change_name, app_label)
                     )
                 except KeyError:
@@ -110,20 +110,20 @@ class Command(BaseCommand):
 
         # Print some useful info
         if self.verbosity >= 1:
-            self.stdout.write(self.style.MIGRATE_HEADING("Operations to perform:"))
+            self.stdout.write(self.style.MIGRATE_HEADING('Operations to perform:'))
             if target_app_labels_only:
                 self.stdout.write(
-                    self.style.MIGRATE_LABEL("  Apply all changes: ") +
-                    (", ".join(sorted(set(a for a, n in targets))) or "(none)")
+                    self.style.MIGRATE_LABEL('  Apply all changes: ') +
+                    (', '.join(sorted({a for a, n in targets})) or '(none)')
                 )
             else:
                 if targets[0][1] is None:
                     self.stdout.write(self.style.MIGRATE_LABEL(
-                        "  Unapply all changes: ") + "%s" % (targets[0][0], )
+                        '  Unapply all changes: ') + '%s' % (targets[0][0], )
                     )
                 else:
                     self.stdout.write(self.style.MIGRATE_LABEL(
-                        "  Target specific change: ") + "%s, from %s"
+                        '  Target specific change: ') + '%s, from %s'
                         % (targets[0][1], targets[0][0])
                     )
 
@@ -131,10 +131,10 @@ class Command(BaseCommand):
 
         # Change!
         if self.verbosity >= 1:
-            self.stdout.write(self.style.MIGRATE_HEADING("Running changes:"))
+            self.stdout.write(self.style.MIGRATE_HEADING('Running changes:'))
         if not plan:
             if self.verbosity >= 1:
-                self.stdout.write("  No changes to apply.")
+                self.stdout.write('  No changes to apply.')
             fake = False
         else:
             fake = options['fake']
@@ -147,33 +147,33 @@ class Command(BaseCommand):
     def change_progress_callback(self, action, change=None, fake=False):
         if self.verbosity >= 1:
             compute_time = self.verbosity > 1
-            if action == "apply_start":
+            if action == 'apply_start':
                 if compute_time:
                     self.start = time.time()
-                self.stdout.write("  Applying %s..." % change, ending="")
+                self.stdout.write('  Applying %s...' % change, ending='')
                 self.stdout.flush()
-            elif action == "apply_success":
-                elapsed = " (%.3fs)" % (time.time() - self.start) if compute_time else ""
+            elif action == 'apply_success':
+                elapsed = ' (%.3fs)' % (time.time() - self.start) if compute_time else ''
                 if fake:
-                    self.stdout.write(self.style.SUCCESS(" FAKED" + elapsed))
+                    self.stdout.write(self.style.SUCCESS(' FAKED' + elapsed))
                 else:
-                    self.stdout.write(self.style.SUCCESS(" OK" + elapsed))
-            elif action == "unapply_start":
+                    self.stdout.write(self.style.SUCCESS(' OK' + elapsed))
+            elif action == 'unapply_start':
                 if compute_time:
                     self.start = time.time()
-                self.stdout.write("  Unapplying %s..." % change, ending="")
+                self.stdout.write('  Unapplying %s...' % change, ending='')
                 self.stdout.flush()
-            elif action == "unapply_success":
-                elapsed = " (%.3fs)" % (time.time() - self.start) if compute_time else ""
+            elif action == 'unapply_success':
+                elapsed = ' (%.3fs)' % (time.time() - self.start) if compute_time else ''
                 if fake:
-                    self.stdout.write(self.style.SUCCESS(" FAKED" + elapsed))
+                    self.stdout.write(self.style.SUCCESS(' FAKED' + elapsed))
                 else:
-                    self.stdout.write(self.style.SUCCESS(" OK" + elapsed))
-            elif action == "render_start":
+                    self.stdout.write(self.style.SUCCESS(' OK' + elapsed))
+            elif action == 'render_start':
                 if compute_time:
                     self.start = time.time()
-                self.stdout.write("  Rendering model states...", ending="")
+                self.stdout.write('  Rendering model states...', ending='')
                 self.stdout.flush()
-            elif action == "render_success":
-                elapsed = " (%.3fs)" % (time.time() - self.start) if compute_time else ""
-                self.stdout.write(self.style.SUCCESS(" DONE" + elapsed))
+            elif action == 'render_success':
+                elapsed = ' (%.3fs)' % (time.time() - self.start) if compute_time else ''
+                self.stdout.write(self.style.SUCCESS(' DONE' + elapsed))

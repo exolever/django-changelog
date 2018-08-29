@@ -74,7 +74,7 @@ class ChangeLoader(object):
                 # I hate doing this, but I don't want to squash other import errors.
                 # Might be better to try a directory check directly.
                 if ((explicit and self.ignore_no_changes) or (
-                        not explicit and "No module named" in str(e) and CHANGELOG_MODULE_NAME in str(e))):
+                        not explicit and 'No module named' in str(e) and CHANGELOG_MODULE_NAME in str(e))):
                     self.unchanged_apps.add(app_config.label)
                     continue
                 raise
@@ -95,16 +95,16 @@ class ChangeLoader(object):
             # Scan for .py files
             change_names = set()
             for name in os.listdir(directory):
-                if name.endswith(".py"):
-                    import_name = name.rsplit(".", 1)[0]
-                    if import_name[0] not in "_.~":
+                if name.endswith('.py'):
+                    import_name = name.rsplit('.', 1)[0]
+                    if import_name[0] not in '_.~':
                         change_names.add(import_name)
             # Load them
             for change_name in change_names:
-                change_module = import_module("%s.%s" % (module_name, change_name))
-                if not hasattr(change_module, "Change"):
+                change_module = import_module('%s.%s' % (module_name, change_name))
+                if not hasattr(change_module, 'Change'):
                     raise BadChangeError(
-                        "Change %s in app %s has no Change class" % (change_name, app_config.label)
+                        'Change %s in app %s has no Change class' % (change_name, app_config.label)
                     )
                 self.disk_changes[app_config.label, change_name] = change_module.Change(
                     change_name,
@@ -112,11 +112,11 @@ class ChangeLoader(object):
                 )
 
     def get_change(self, app_label, name_prefix):
-        "Gets the change exactly named, or raises `graph.NodeNotFoundError`"
+        'Gets the change exactly named, or raises `graph.NodeNotFoundError`'
         return self.graph.nodes[app_label, name_prefix]
 
     def get_change_by_prefix(self, app_label, name_prefix):
-        "Returns the change(s) which match the given app label and name _prefix_"
+        'Returns the change(s) which match the given app label and name _prefix_'
         # Do the search
         results = []
         for change_app_label, change_name in self.disk_changes:
@@ -132,7 +132,7 @@ class ChangeLoader(object):
             return self.disk_changes[results[0]]
 
     def check_key(self, key, current_app):
-        if (key[1] != "__first__" and key[1] != "__latest__") or key in self.graph:
+        if (key[1] != '__first__' and key[1] != '__latest__') or key in self.graph:
             return key
         # Special-case __first__, which means "the first change" for
         # changed apps, and is ignored for unchanged apps. It allows
@@ -148,7 +148,7 @@ class ChangeLoader(object):
             return
         if key[0] in self.changed_apps:
             try:
-                if key[1] == "__first__":
+                if key[1] == '__first__':
                     return list(self.graph.root_nodes(key[0]))[0]
                 else:  # "__latest__"
                     return list(self.graph.leaf_nodes(key[0]))[0]
@@ -156,8 +156,8 @@ class ChangeLoader(object):
                 if self.ignore_no_changes:
                     return None
                 else:
-                    raise ValueError("Dependency on app with no changes: %s" % key[0])
-        raise ValueError("Dependency on unknown app: %s" % key[0])
+                    raise ValueError('Dependency on app with no changes: %s' % key[0])
+        raise ValueError('Dependency on unknown app: %s' % key[0])
 
     def add_internal_dependencies(self, key, change):
         """
@@ -230,7 +230,7 @@ class ChangeLoader(object):
             for parent in self.graph.node_map[change].parents:
                 if parent not in applied:
                     raise InconsistentChangeHistory(
-                        "Change {}.{} is applied before its dependency "
+                        'Change {}.{} is applied before its dependency '
                         "{}.{} on database '{}'.".format(
                             change[0], change[1], parent[0], parent[1],
                             connection.alias,

@@ -43,14 +43,14 @@ class ChangeRecorder(object):
             with self.connection.schema_editor() as editor:
                 editor.create_model(self.Migration)
         except DatabaseError as exc:
-            raise ChangeSchemaMissing("Unable to create the changelog_change table (%s)" % exc)
+            raise ChangeSchemaMissing('Unable to create the changelog_change table (%s)' % exc)
 
     def applied_changes(self):
         """
         Returns a set of (app, name) of applied changes.
         """
         self.ensure_schema()
-        return set(tuple(x) for x in self.change_qs.values_list("app", "name"))
+        return {tuple(x) for x in self.change_qs.values_list('app', 'name')}
 
     def record_applied(self, app, name):
         """

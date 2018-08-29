@@ -48,11 +48,11 @@ class RunSQL(Operation):
 
     def database_backwards(self, app_label, schema_editor, from_state, to_state):
         if self.reverse_sql is None:
-            raise NotImplementedError("You cannot reverse this operation")
+            raise NotImplementedError('You cannot reverse this operation')
         self._run_sql(self.reverse_sql)
 
     def describe(self):
-        return "Raw SQL operation"
+        return 'Raw SQL operation'
 
     def _run_sql(self, schema_editor, sqls):
         with self.connection.schema_editor() as schema_editor:
@@ -64,7 +64,7 @@ class RunSQL(Operation):
                         if elements == 2:
                             sql, params = sql
                         else:
-                            raise ValueError("Expected a 2-tuple but got %d" % elements)
+                            raise ValueError('Expected a 2-tuple but got %d' % elements)
                     schema_editor.execute(sql, params=params)
             elif sqls != RunSQL.noop:
                 statements = schema_editor.connection.ops.prepare_sql_script(sqls)
@@ -83,14 +83,14 @@ class RunPython(Operation):
         self.atomic = atomic
         # Forwards code
         if not callable(code):
-            raise ValueError("RunPython must be supplied with a callable")
+            raise ValueError('RunPython must be supplied with a callable')
         self.code = code
         # Reverse code
         if reverse_code is None:
             self.reverse_code = None
         else:
             if not callable(reverse_code):
-                raise ValueError("RunPython must be supplied with callable arguments")
+                raise ValueError('RunPython must be supplied with callable arguments')
             self.reverse_code = reverse_code
         self.hints = hints or {}
         self.elidable = elidable
@@ -128,11 +128,11 @@ class RunPython(Operation):
 
     def database_backwards(self, app_label, schema_editor, from_state, to_state):
         if self.reverse_code is None:
-            raise NotImplementedError("You cannot reverse this operation")
+            raise NotImplementedError('You cannot reverse this operation')
         self.reverse_code()
 
     def describe(self):
-        return "Raw Python operation"
+        return 'Raw Python operation'
 
     @staticmethod
     def noop(apps, schema_editor):

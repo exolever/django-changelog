@@ -45,7 +45,7 @@ class ChangeAutodetector(object):
             if app_leaf is None and not self.questioner.ask_initial(app_label):
                 # They don't.
                 for change in changelogs:
-                    name_map[(app_label, change.name)] = (app_label, "__first__")
+                    name_map[(app_label, change.name)] = (app_label, '__first__')
                 del changes[app_label]
                 continue
             # Work out the next number in the sequence
@@ -58,9 +58,9 @@ class ChangeAutodetector(object):
                 if i == 0 and app_leaf:
                     change.dependencies.append(app_leaf)
                 if i == 0 and not app_leaf:
-                    new_name = "0001_%s" % change_name if change_name else "0001_initial"
+                    new_name = '0001_%s' % change_name if change_name else '0001_initial'
                 else:
-                    new_name = "%04i_%s" % (
+                    new_name = '%04i_%s' % (
                         next_number,
                         change_name or self.suggest_name(change.operations)[:100],
                     )
@@ -81,7 +81,7 @@ class ChangeAutodetector(object):
         but we put some effort in to the fallback name to avoid VCS conflicts
         if we can.
         """
-        return "auto_%s" % get_migration_name_timestamp()
+        return 'auto_%s' % get_migration_name_timestamp()
 
     @classmethod
     def parse_number(cls, name):

@@ -47,13 +47,13 @@ class Change(object):
         return not (self == other)
 
     def __repr__(self):
-        return "<Change %s.%s>" % (self.app_label, self.name)
+        return '<Change %s.%s>' % (self.app_label, self.name)
 
     def __str__(self):
-        return "%s.%s" % (self.app_label, self.name)
+        return '%s.%s' % (self.app_label, self.name)
 
     def __hash__(self):
-        return hash("%s.%s" % (self.app_label, self.name))
+        return hash('%s.%s' % (self.app_label, self.name))
 
     def mutate_state(self, project_state, preserve=True):
         """
@@ -102,4 +102,4 @@ def swappable_dependency(value):
     """
     Turns a setting value into a dependency.
     """
-    return SwappableTuple((value.split(".", 1)[0], "__first__"), value)
+    return SwappableTuple((value.split('.', 1)[0], '__first__'), value)

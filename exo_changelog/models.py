@@ -11,4 +11,4 @@ class ChangeLog(models.Model):
     applied = models.DateTimeField(default=now)
 
     def __str__(self):
-        return "Change %s for %s" % (self.name, self.app)
+        return 'Change %s for %s' % (self.name, self.app)
