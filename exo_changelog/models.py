@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-
+from django.utils.encoding import python_2_unicode_compatible
+from django.utils.timezone import now
 from django.db import models
 
-from model_utils.models import TimeStampedModel
 
+@python_2_unicode_compatible
+class ChangeLog(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField(default=now)
 
-class ChangeLog(TimeStampedModel):
-    pass
-    
-
-
+    def __str__(self):
+        return "Change %s for %s" % (self.name, self.app)
