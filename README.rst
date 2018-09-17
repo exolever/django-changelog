@@ -5,7 +5,7 @@ django-changelog
 .. image:: https://badge.fury.io/py/django-changelog.svg
     :target: https://badge.fury.io/py/django-changelog
 
-.. image:: https://travis-ci.org/ExOLever/django-changelog.svg?branch=master
+.. image:: https://travis-ci.org/ExOLever/django-changelog.svg
     :target: https://travis-ci.org/ExOLever/django-changelog
 
 .. image:: https://codecov.io/gh/ExOLever/django-changelog/branch/master/graph/badge.svg
