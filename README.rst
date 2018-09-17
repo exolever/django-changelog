@@ -1,29 +1,29 @@
 =============================
-exo-changelog
+django-changelog
 =============================
 
-.. image:: https://badge.fury.io/py/exo-changelog.svg
-    :target: https://badge.fury.io/py/exo-changelog
+.. image:: https://badge.fury.io/py/django-changelog.svg
+    :target: https://badge.fury.io/py/django-changelog
 
-.. image:: https://travis-ci.org/ExOLever/exo-changelog.svg?branch=master
-    :target: https://travis-ci.org/ExOLever/exo-changelog
+.. image:: https://travis-ci.org/ExOLever/django-changelog.svg?branch=master
+    :target: https://travis-ci.org/ExOLever/django-changelog
 
-.. image:: https://codecov.io/gh/ExOLever/exo-changelog/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/ExOLever/exo-changelog
+.. image:: https://codecov.io/gh/ExOLever/django-changelog/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/ExOLever/django-changelog
 
 Manage changelog as migrations
 
 Documentation
 -------------
 
-The full documentation is at https://exo-changelog.readthedocs.io.
+The full documentation is at https://django-changelog.readthedocs.io.
 
 Quickstart
 ----------
 
-Install exo-changelog::
+Install django-changelog::
 
-    pip install exo-changelog
+    pip install git+https://github.com/ExOLever/django-changelog.git@0.1.0
 
 Add it to your `INSTALLED_APPS`:
 
@@ -35,7 +35,7 @@ Add it to your `INSTALLED_APPS`:
         ...
     )
 
-Add exo-changelog's URL patterns:
+Add django-changelog's URL patterns:
 
 .. code-block:: python
 
