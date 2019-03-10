@@ -31,7 +31,7 @@ Quickstart
 
 Install django-changelog::
 
-`pip install git+https://github.com/ExOLever/django-changelog.git@0.1.0`
+`pip install git+https://github.com/exolever/django-changelog.git@0.1.0`
 
 Add it to your `INSTALLED_APPS`:
 
