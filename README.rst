@@ -4,12 +4,17 @@ django-changelog
 
 .. image:: https://badge.fury.io/py/django-changelog.svg
     :target: https://badge.fury.io/py/django-changelog
+    
+.. image:: https://requires.io/github/exolever/django-changelog/requirements.svg?branch=master
+     :target: https://requires.io/github/exolever/django-changelog/requirements/?branch=master
+     :alt: Requirements Status    
 
 .. image:: https://travis-ci.org/exolever/django-changelog.svg
     :target: https://travis-ci.org/exolever/django-changelog
 
 .. image:: https://codecov.io/gh/exolever/django-changelog/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/exolever/django-changelog
+    
 
 Manage changelog as migrations
 
