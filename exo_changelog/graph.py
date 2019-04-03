@@ -187,7 +187,7 @@ class ChangeGraph(object):
         node = self.node_map[target]
         try:
             return node.ancestors()
-        except RuntimeError:
+        except (RuntimeError, AttributeError):
             # fallback to iterative dfs
             warnings.warn(RECURSION_DEPTH_WARNING, RuntimeWarning)
             return self.iterative_dfs(node)
