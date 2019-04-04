@@ -1,2 +1,2 @@
 from .change import Change, swappable_dependency  # NOQA
-__version__ = '0.1.1'
+__version__ = '0.1.2'
