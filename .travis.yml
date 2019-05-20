@@ -9,3 +9,14 @@ script:
   docker build -t django-changelog .
 after_success:
   - codecov -e TOX_ENV
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  twine_version: 1.13.0
+  user: tomasgarzon
+  password:
+    secure: jpldzIAzksp3oU1NYHfS0Y2c+WJUO44vk7DDYve5kJBiom1aA31/xmLU3j8K7nAxtLvrP/Men/dWsPods4f2hH/T91ROczFKqGJTTY5e17PBm92frLBr2lyjZSYBIdWyhTvO9Z2Ik89zK/xUMoV4G6VS3X+L7ypG43DwWOoJ8ve/Vg+BVP4JYtKxJZkXxxERntQP7GLSH0f5dVKPbF3fAxoD4mM+Yk6WqTKFi2S5X9KlHBZrKsrbiCNtbLP9GDbKdihSu7a02suhL85zIDpp2dVMR54+4NypYsveXyUS2aATneBF8KRxCN5h6c/DfYti/gza1JnhXH+g5uCuUR1uKsBhl97wTEB31DqPM8Q4hJaKRteHJz0aWYNOSRiH1ePWBAflZDzaN2F1mvjZ+21yNmUHIHxkOssOS5BBmM99wCflrJLESxBrTpqopDxmJwGDr//WMDUeCXiMIiTq/DFPBPWLahnT3OAbmvethWrcJOdII8us7/fNdHAB23a7MX+uWYVNRE0sZ+TvqujJfRy4n58IRP6LDpTRAg3h8u4wZLr6GdTO+liYx47QUz49JKEa0d+2LnLuANHCYGLc4xO4OyoQ6QhNKX3lpqaYGEr1D8C6n0LADLWp4IMv4t6zm0QRvUG7XwlbVQyNBsAsEzfUv7V5vUxo4QtFT27sd96n3gE=
+  on:
+    tags: true
+    repo: exolever/django-changelog
+    python: 3.6

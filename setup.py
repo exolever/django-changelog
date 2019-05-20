@@ -46,7 +46,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 
 setup(
     name='exo-changelog',
-    version='0.1.3',
+    version=version,
     description="""Manage changelog as migrations""",
     long_description=readme + '\n\n' + history,
     author='Tomas Garzon',

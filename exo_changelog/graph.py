@@ -8,13 +8,36 @@ from django.db.migrations.state import ProjectState
 from django.utils import six
 from django.utils.datastructures import OrderedSet
 from django.utils.encoding import python_2_unicode_compatible
-from django.db.migrations.graph import Node, DummyNode
+from django.db.migrations.graph import Node
 
 from .exceptions import CircularDependencyError, NodeNotFoundError
 
 RECURSION_DEPTH_WARNING = (
     'Maximum recursion depth exceeded while generating changes graph, '
 )
+
+
+class DummyNode(Node):
+    def __init__(self, key, origin, error_message):
+        super(DummyNode, self).__init__(key)
+        self.origin = origin
+        self.error_message = error_message
+
+    def __repr__(self):
+        return '<DummyNode: (%r, %r)>' % self.key
+
+    def promote(self):
+        """
+        Transition dummy to a normal node and clean off excess attribs.
+        Creating a Node object from scratch would be too much of a
+        hassle as many dependendies would need to be remapped.
+        """
+        del self.origin
+        del self.error_message
+        self.__class__ = Node
+
+    def raise_error(self):
+        raise NodeNotFoundError(self.error_message, self.key, origin=self.origin)
 
 
 @python_2_unicode_compatible
