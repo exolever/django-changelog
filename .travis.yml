@@ -1,14 +1,16 @@
-# Config file for automatic testing at travis-ci.org
-sudo: required
-
-services:
-  - docker
-
-# command to run tests using coverage, e.g. python setup.py test
+sudo: false
+language: python
+cache: pip
+python: 3.6
+matrix:
+  fast_finish: true
+addons:
+  sonarcloud:
+    organization: openexo
+install: pip install -r requirements_test.txt
 script:
-  docker build -t django-changelog .
-after_success:
-  - codecov -e TOX_ENV
+- tox
+- sonar-scanner
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
