@@ -22,3 +22,5 @@ deploy:
     tags: true
     repo: exolever/django-changelog
     python: 3.6
+after_success:
+- codecov
