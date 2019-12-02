@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from django.utils.encoding import python_2_unicode_compatible
+from six import python_2_unicode_compatible
+
 from django.utils.timezone import now
 from django.db import models
 
