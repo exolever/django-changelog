@@ -4,10 +4,11 @@ import sys
 import warnings
 from collections import deque
 
+from six import python_2_unicode_compatible
+
 from django.db.migrations.state import ProjectState
 from django.utils import six
 from django.utils.datastructures import OrderedSet
-from django.utils.encoding import python_2_unicode_compatible
 from django.db.migrations.graph import Node
 
 from .exceptions import CircularDependencyError, NodeNotFoundError
