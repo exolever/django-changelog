@@ -4,13 +4,9 @@ cache: pip
 python: 3.6
 matrix:
   fast_finish: true
-addons:
-  sonarcloud:
-    organization: openexo
 install: pip install -r requirements_test.txt
 script:
 - tox
-- sonar-scanner
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
