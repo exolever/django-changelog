@@ -2,21 +2,24 @@
 django-changelog
 =============================
 
-.. image:: https://badge.fury.io/py/django-changelog.svg
-    :target: https://badge.fury.io/py/django-changelog
+.. image:: https://badge.fury.io/py/exo-changelog.svg
+    :target: https://badge.fury.io/py/exo-changelog
+    
+.. image:: https://requires.io/github/exolever/django-changelog/requirements.svg?branch=master
+     :target: https://requires.io/github/exolever/django-changelog/requirements/?branch=master
+     :alt: Requirements Status    
 
 .. image:: https://travis-ci.org/exolever/django-changelog.svg
     :target: https://travis-ci.org/exolever/django-changelog
 
 .. image:: https://codecov.io/gh/exolever/django-changelog/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/exolever/django-changelog
+    
 
 Manage changelog as migrations
 
 Documentation
 -------------
-
-The full documentation is at https://django-changelog.readthedocs.io.
 
 We have two commands, similar to Django Migrations, code based on it. One command creates an empty file ready for write our python code for the change (as a template file with some basic dependencies). We can include commands call or query using our django models.
 
@@ -31,7 +34,7 @@ Quickstart
 
 Install django-changelog::
 
-`pip install git+https://github.com/exolever/django-changelog.git@0.1.0`
+`pip install exo-changelog`
 
 Add it to your `INSTALLED_APPS`:
 
@@ -42,13 +45,6 @@ Add it to your `INSTALLED_APPS`:
         'exo_changelog.apps.ExoChangelogConfig',
         ...
     )
-  
-Add django-changelog's URL patterns:
-
-.. code-block:: python
-
-    from exo_changelog import urls as exo_changelog_urls
-
 
 Create the changelog table:
 `./manage.py migrate exo_changelog`
