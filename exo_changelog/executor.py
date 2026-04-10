@@ -136,7 +136,6 @@ class ChangeExecutor(object):
                 if 'apps' not in state.__dict__:
                     if self.progress_callback:
                         self.progress_callback('render_start')
-                    state.apps  # Render all -- performance critical
                     if self.progress_callback:
                         self.progress_callback('render_success')
                 state = self.apply_change(state, change, fake=fake)

@@ -1,11 +1,22 @@
-# Config file for automatic testing at travis-ci.org
-sudo: required
-
-services:
-  - docker
-
-# command to run tests using coverage, e.g. python setup.py test
+sudo: false
+language: python
+cache: pip
+python: 3.6
+matrix:
+  fast_finish: true
+install: pip install -r requirements_test.txt
 script:
-  docker build -t django-changelog .
+- tox
+deploy:
+  provider: pypi
+  distributions: sdist bdist_wheel
+  twine_version: 1.13.0
+  user: tomasgarzon
+  password:
+    secure: JH8c6sKG+yD7qD2z6wBA3sFdUTVfS9Y0UiWqw0BASC4tkxVxQI32xwyCT3QFTGe9PM6X7/5P+aIy7v73/rtHX+HystjcNdxTExOyKEhPiZfW/Eq/MJi4D+ODy/UtzGyv35zImtZeMBT457RIvrItJ0VHp6TVfO30C19tW8Li6zAMXkDEqp5h7+IQT5e6FA0mOQPQUpTrkoVYtRA20jybaNaSQj5Dc5t+qoGZe42fa4RXQdBrvqxymTxxXT8Xy7JXj1YSSnrWVF12NO7RqxfzXpDZqcytW9VBMNl6kYIUxdtEvqTSYkOmCwi3XvtW/gVShqvzOtEyBm2THLjI/0cj7K8HxUJRQhXphUxmv0CYoPwP3Jdi+kMxV11RlOTI77vkdmWD6BLsGXM00Zq+CDldWENyDJX8IE6MRm9sHopdMUPDU93unp4dvsYhmwbcLigZIP+iaRfrW9eZHuOOr0YtwkowllY8syllaBT7NIP6UI0Bi+nvMvIAm9XR48qiLQWVoybrozAphdTPwpo7fpd/wJ+psFVXQ+TrzDhpHgIYw9Wpjmr670XIjZOwLK/40cnSInqA8Ck5bCo7BVGB9aL8U3CkicDtuUUyjgsE9kVbi3OCiateF9OdW4B7qRokgzXZvhbQgjHWZP0Ohrnog3dznSmq2VEYNL9cGSp9G7JEmB8=
+  on:
+    tags: true
+    repo: exolever/django-changelog
+    python: 3.6
 after_success:
-  - codecov -e TOX_ENV
+- codecov

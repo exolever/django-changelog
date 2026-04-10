@@ -51,7 +51,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='Tomas Garzon',
     author_email='tomasgarzonhervas@gmail.com',
-    url='https://github.com/tomasgarzon/exo-changelog',
+    url='https://github.com/exolever/django-changelog',
     packages=[
         'exo_changelog',
     ],
